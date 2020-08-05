@@ -1,0 +1,29 @@
+name: ${name}
+description: A plugin allowing commands to be ran when a player joins/leaves a world
+author: Devon Palma
+
+
+
+main: ${groupId}.${artifactId}.${name}
+version: ${version}
+api-version: ${apiVersion}
+
+
+depend: [PlaceholderAPI]
+
+permissions:
+  worldchangecommand.admin:
+    description: Allows accessing the admin commands for worldchangecommand
+    default: op
+
+commands:
+  worldchangecommand:
+    aliases: wcc
+    description: Allows access to commands provided by world change command plugin
+    usage: /worlcchangecommand
+    permission: worldchangecommand.admin
+    permission-message: You do not have access to this command.
+
+
+
+

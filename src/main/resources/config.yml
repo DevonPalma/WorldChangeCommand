@@ -1,0 +1,8 @@
+world:
+  onJoin:
+    consolePre:
+      - say %player_name% has entered world, running console pre commands
+    player:
+      - me has entered world
+    consolePost:
+      - say %player_name% has fully entered world, finishing up commands
