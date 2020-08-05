@@ -18,6 +18,8 @@ import java.util.List;
 
 public class EventListener implements Listener {
 
+    public boolean debug = false;
+
     private WorldChangeCommand plugin;
 
     public EventListener(WorldChangeCommand plugin) {
@@ -67,7 +69,8 @@ public class EventListener implements Listener {
     private void runCommands(World world, Player player, EventTypes eventType, CommandRunnerTypes commandRunnerType) {
         List<String> commands = plugin.getConfigManager().getCommands(world.getName(), eventType, commandRunnerType);
         if (commands == null) {
-            plugin.getLogger().warning("Could not find commands for (" +
+            if (debug)
+                plugin.getLogger().warning("Could not find commands for (" +
                     world.getName() + ", " +
                     player.getDisplayName() + ", " +
                     eventType.name() + ", " +

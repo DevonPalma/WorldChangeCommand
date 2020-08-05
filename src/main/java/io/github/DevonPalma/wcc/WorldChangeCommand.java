@@ -13,13 +13,14 @@ import java.util.List;
 public class WorldChangeCommand extends JavaPlugin {
 
     private ConfigManager configManager;
+    private EventListener eventListener;
 
 
     @Override
     public void onEnable() {
         super.onEnable();
         configManager = new ConfigManager(this);
-        new EventListener(this);
+        eventListener = new EventListener(this);
         this.getCommand("worldchangecommand").setExecutor(this);
     }
 
@@ -45,6 +46,16 @@ public class WorldChangeCommand extends JavaPlugin {
                     configManager.reload();
                     return true;
                 }
+                if (args[0].equals("debug")) {
+                    String message = "Toggling debug mode " + (eventListener.debug ? "off" : "on");
+                    if (!(sender instanceof ConsoleCommandSender)) {
+                        sender.sendMessage(message);
+                    }
+                    getLogger().info(message);
+                    eventListener.debug = !eventListener.debug;
+
+                    return true;
+                }
             }
             return false;
         }
@@ -55,9 +66,17 @@ public class WorldChangeCommand extends JavaPlugin {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> returnVals = new ArrayList<>();
         if (command.getLabel().equals("worldchangecommand")) {
+            if (sender instanceof Player){
+                Player player = (Player) sender;
+                if (!player.hasPermission("worldchangecommand.admin")) {
+                    return returnVals;
+                }
+            }
             if (args.length == 1) {
                 if ("reload".startsWith(args[0]))
                     returnVals.add("reload");
+                if ("debug".startsWith(args[0]))
+                    returnVals.add("debug");
             }
         }
         return returnVals;
